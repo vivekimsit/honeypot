@@ -31,10 +31,10 @@ api.interceptors.response.use(
   }
 );
 
-export async function login({email, password}) {
-  const {data:{token}} = await api.post('/users/login', loginData);
-  api.defaults.headers.token = token;
-  storage.token = token;
+export async function login(loginData) {
+  const {data} = await api.post('/users/login', loginData);
+  api.defaults.headers.token = data.token;
+  storage.token = data.token;
   return data.user;
 }
 
@@ -43,11 +43,7 @@ export async function register(registerData) {
   return login(registerData);
 }
 
-export function logout() {
-  delete api.defaults.headers.token;
-  delete storage.token;
-}
-
-export function isLoggedIn() {
-  return 'token' in storage;
+export async function fetchReports() {
+  const {data} = await api.get('/admin/reports');
+  return data;
 }

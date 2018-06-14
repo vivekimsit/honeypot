@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Router, view, params } from 'react-easy-stack';
 import Button from 'material-ui/Button';
 import NavBar from './NavBar';
-import ProductList from './ProductList';
-import ProductEditor from './ProductEditor';
 import Login from './Login';
 import appStore, * as app from './appStore';
 import Notification, { notify } from './Notification';
@@ -34,13 +32,21 @@ class App extends Component {
   onRoute = ({ toPage, preventDefault }) => {
   };
 
+  componentWillMount() {
+    if (!this.state.isLoggedIn) {
+      this.navigateTo("Login");
+    } else {
+      this.navigateTo("Dashboard");
+    }
+  }
+
   render() {
     return (
       <Fragment>
         <NavBar />
         <Router
           onRoute={this.onRoute}
-          defaultPage="products"
+          defaultPage="dashboard"
           style={appStyle}
           enterAnimation={enterAnimation}
           leaveAnimation={leaveAnimation}
