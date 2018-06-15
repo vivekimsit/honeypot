@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { Router, view, params } from 'react-easy-stack';
 import Button from 'material-ui/Button';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import NavBar from './NavBar';
+import Dashboard from './Dashboard';
 import Login from './Login';
-import appStore, * as app from './appStore';
+import * as app from './appStore';
 import Notification, { notify } from './Notification';
+
+const theme = createMuiTheme();
 
 const appStyle = {
   maxWidth: 800,
@@ -30,32 +34,32 @@ const leaveAnimation = {
 
 class App extends Component {
   onRoute = ({ toPage, preventDefault }) => {
-  };
-
-  componentWillMount() {
-    if (!this.state.isLoggedIn) {
-      this.navigateTo("Login");
-    } else {
-      this.navigateTo("Dashboard");
+    console.log(toPage, preventDefault);
+    if (toPage === 'dashboard' && !app.isLoggedIn()) {
+      //preventDefault({ to: '/login' });
+      notify('Please log in to see the dashboard');
     }
-  }
+  };
 
   render() {
     return (
-      <Fragment>
-        <NavBar />
-        <Router
-          onRoute={this.onRoute}
-          defaultPage="dashboard"
-          style={appStyle}
-          enterAnimation={enterAnimation}
-          leaveAnimation={leaveAnimation}
-          animate={true}
-        >
-          <Login page="login" />
-        </Router>
-        <Notification />
-      </Fragment>
+      <MuiThemeProvider theme={theme}>
+        <Fragment>
+          <NavBar />
+          <Router
+            onRoute={this.onRoute}
+            defaultPage="dashboard"
+            style={appStyle}
+            enterAnimation={enterAnimation}
+            leaveAnimation={leaveAnimation}
+            animate={true}
+          >
+            <Dashboard page="dashboard" resolve={app.resolveDashboard} />
+            <Login page="login" />
+          </Router>
+          <Notification />
+        </Fragment>
+      </MuiThemeProvider>
     );
   }
 }

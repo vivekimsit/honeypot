@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import SearchBar from 'material-ui-search-bar';
 import { LinearProgress } from 'material-ui/Progress';
 import Button from 'material-ui/Button';
 import { view, params, path, route, Link } from 'react-easy-stack';
 import { notify } from './Notification';
-import appStore, * as app from './appStore';
+import * as app from './appStore';
 
 const toolbarStyle = {
   width: 800,
@@ -40,25 +39,18 @@ class NavBar extends Component {
   };
 
   render() {
-    const { isLoggedIn, isLoading } = appStore;
-
     return (
       <AppBar>
         <Toolbar style={toolbarStyle}>
-          <SearchBar
-            onRequestSearch={this.onSearch}
-            value={params.search}
-            style={searchStyle}
-          />
           <Button color="inherit">
-            {isLoggedIn ? (
+            {app.isLoggedIn() ? (
               <span onClick={this.onLogout}>Logout</span>
             ) : (
               <Link to="/login">Login</Link>
             )}
           </Button>
         </Toolbar>
-        {isLoading && <LinearProgress color="secondary" />}
+        {app.isLoading() && <LinearProgress color="secondary" />}
       </AppBar>
     );
   }

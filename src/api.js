@@ -1,5 +1,5 @@
 import axios from 'axios';
-import appStore, * as app from './appStore';
+import * as app from './appStore';
 import { pick, defaults } from 'lodash';
 import { storage } from 'react-easy-stack';
 
@@ -16,17 +16,17 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(config => {
-  appStore.isLoading = true;
+  app.setLoading(true);
   return config;
 });
 
 api.interceptors.response.use(
   response => {
-    appStore.isLoading = false;
+    app.setLoading(false);
     return response;
   },
   error => {
-    appStore.isLoading = false;
+    app.setLoading(false);
     throw error;
   }
 );
@@ -36,6 +36,11 @@ export async function login(loginData) {
   api.defaults.headers.token = data.token;
   storage.token = data.token;
   return data.user;
+}
+
+export function logout() {
+  delete api.defaults.headers.token;
+  delete storage.token;
 }
 
 export async function register(registerData) {
