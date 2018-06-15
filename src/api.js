@@ -48,7 +48,18 @@ export async function register(registerData) {
   return login(registerData);
 }
 
+const fakeData = [
+  {
+    name: 'Hotels',
+    total: 10,
+    active: 8
+  },
+  {
+    name: 'Bookings',
+    total: 500
+  }];
+
 export async function fetchReports() {
-  const {data} = await api.get('/admin/reports');
-  return data;
+  //const {data} = await api.get('/admin/reports');
+  return fakeData;
 }

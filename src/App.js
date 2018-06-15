@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Router, view, params } from 'react-easy-stack';
-import Button from 'material-ui/Button';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { Router, view, params, route } from 'react-easy-stack';
+import Button from '@material-ui/core/Button';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NavBar from './NavBar';
 import Dashboard from './Dashboard';
 import Login from './Login';
@@ -33,17 +33,21 @@ const leaveAnimation = {
 };
 
 class App extends Component {
-  onRoute = ({ toPage, preventDefault }) => {
-    console.log(toPage, preventDefault);
+  onResolve = async () => {
+    console.log('Resolving');
+    await 200;
+  }
+
+  onRoute = ({ toPage }) => {
+    console.log(toPage);
     if (toPage === 'dashboard' && !app.isLoggedIn()) {
-      //preventDefault({ to: '/login' });
-      notify('Please log in to see the dashboard');
+      //route({ to: '/login' });
+      //notify('Please log in to see the dashboard');
     }
   };
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
         <Fragment>
           <NavBar />
           <Router
@@ -52,14 +56,17 @@ class App extends Component {
             style={appStyle}
             enterAnimation={enterAnimation}
             leaveAnimation={leaveAnimation}
-            animate={true}
+            //animate={true}
           >
-            <Dashboard page="dashboard" resolve={app.resolveDashboard} />
+            <Dashboard
+              page="dashboard"
+              resolve={this.onResolve}
+              timeout={800}
+            />
             <Login page="login" />
           </Router>
           <Notification />
         </Fragment>
-      </MuiThemeProvider>
     );
   }
 }

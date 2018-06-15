@@ -1,6 +1,6 @@
 import React from 'react';
 import { view, store } from 'react-easy-stack';
-import Snackbar from 'material-ui/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const notificationStore = store({
   message: '',
@@ -21,11 +21,10 @@ function closeNotification() {
 }
 
 export default view(() => (
-  <Snackbar
+  <SnackbarContent
     message={notificationStore.message}
     action={notificationStore.action}
     open={notificationStore.isOpen}
     onClose={closeNotification}
-    autoHideDuration={4000}
   />
 ));

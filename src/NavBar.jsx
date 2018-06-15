@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import { LinearProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { view, params, path, route, Link } from 'react-easy-stack';
 import { notify } from './Notification';
 import * as app from './appStore';

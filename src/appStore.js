@@ -2,12 +2,13 @@ import { store, params, storage } from 'react-easy-stack';
 import * as api from './api';
 
 const appStore = store({
+  reports: [],
   isLoading: false,
   isLoggedIn: isLoggedIn()
 });
 
 export async function resolveDashboard() {
-  return { hotels: await api.fetchReports() };
+  appStore.reports = await api.fetchReports();
 }
 
 export async function login(loginData) {
@@ -47,3 +48,5 @@ export function isLoggedIn() {
   console.log('Is Logged In: ' + isLoggedIn);
   return isLoggedIn;
 }
+
+export default appStore;
