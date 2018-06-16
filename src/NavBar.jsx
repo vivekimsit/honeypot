@@ -3,22 +3,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
 import { view, params, path, route, Link } from 'react-easy-stack';
 import { notify } from './Notification';
 import * as app from './appStore';
 
 const toolbarStyle = {
-  width: 800,
-  maxWidth: '100%',
-  margin: '0 auto',
-  padding: '3 10px',
   display: 'flex',
   justifyContent: 'space-between'
-};
-
-const searchStyle = {
-  width: '50%',
-  minWidth: '180px'
 };
 
 class NavBar extends Component {
@@ -42,6 +34,9 @@ class NavBar extends Component {
     return (
       <AppBar>
         <Toolbar style={toolbarStyle}>
+          <Typography variant="title" color="inherit">
+            Merchant Dashboard
+          </Typography>
           <Button color="inherit">
             {app.isLoggedIn() ? (
               <span onClick={this.onLogout}>Logout</span>

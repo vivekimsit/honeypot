@@ -10,14 +10,17 @@ defaults(storage, {
 const api = axios.create({
   baseURL: 'https://www.example.com/api/',
   headers: {
-    token: storage.token,
     'Content-Type': 'application/json'
   }
 });
 
-api.interceptors.request.use(config => {
+api.interceptors.request.use(request => {
   app.setLoading(true);
-  return config;
+  const token = storage.token;
+  if (token) {
+    request.headers.common['Authorization'] = `Bearer ${token}`
+  }
+  return request;
 });
 
 api.interceptors.response.use(
@@ -32,10 +35,14 @@ api.interceptors.response.use(
 );
 
 export async function login(loginData) {
-  const {data} = await api.post('/users/login', loginData);
-  api.defaults.headers.token = data.token;
-  storage.token = data.token;
-  return data.user;
+  const api = axios.create({
+    baseURL: 'https://www.microauth.com/account',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const {data} = await api.post('/applogin', loginData);
+  return data;
 }
 
 export function logout() {

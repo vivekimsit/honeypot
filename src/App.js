@@ -41,7 +41,7 @@ class App extends Component {
   onRoute = ({ toPage }) => {
     console.log(toPage);
     if (toPage === 'dashboard' && !app.isLoggedIn()) {
-      //route({ to: '/login' });
+      route({ to: '/login' });
       //notify('Please log in to see the dashboard');
     }
   };
@@ -56,7 +56,7 @@ class App extends Component {
             style={appStyle}
             enterAnimation={enterAnimation}
             leaveAnimation={leaveAnimation}
-            //animate={true}
+            animate={true}
           >
             <Dashboard
               page="dashboard"

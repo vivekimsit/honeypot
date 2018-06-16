@@ -45,13 +45,6 @@ class Login extends Component {
           margin="dense"
           onChange={this.onChange}
         />
-        <TextField
-          name="username"
-          label="Username"
-          autoComplete="username"
-          margin="dense"
-          onChange={this.onChange}
-        />
         <Button
           onClick={this.onLogin}
           color="primary"

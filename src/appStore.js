@@ -3,6 +3,7 @@ import * as api from './api';
 
 const appStore = store({
   reports: [],
+  appName: 'YabiDashboard',
   isLoading: false,
   isLoggedIn: isLoggedIn()
 });
@@ -12,8 +13,12 @@ export async function resolveDashboard() {
 }
 
 export async function login(loginData) {
-  appStore.user = await api.login(loginData);
+  loginData = Object.assign({}, loginData, {appname: appStore.appName});
+  const {expiration, token} = await api.login(loginData);
+
   appStore.isLoggedIn = true;
+  storage.token = token;
+  storage.tokenExpiration = expiration;
 }
 
 export async function logout() {
@@ -23,11 +28,6 @@ export async function logout() {
 
 export async function register(registerData) {
   appStore.user = await api.register(registerData);
-}
-
-function getUnixUtcTimeSeconds() {
-  var tmLoc = new Date();
-  return Math.floor((tmLoc.getTime() + (tmLoc.getTimezoneOffset() * 60000)) / 1000);
 }
 
 export function isLoading() {
@@ -47,6 +47,11 @@ export function isLoggedIn() {
   const isLoggedIn = !!tokenExpiration && tokenExpiration < now;
   console.log('Is Logged In: ' + isLoggedIn);
   return isLoggedIn;
+}
+
+function getUnixUtcTimeSeconds() {
+  var tmLoc = new Date();
+  return Math.floor((tmLoc.getTime() + (tmLoc.getTimezoneOffset() * 60000)) / 1000);
 }
 
 export default appStore;
